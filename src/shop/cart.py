@@ -16,7 +16,6 @@ class Item:
 
 
 class Cart:
-
     def __init__(self) -> None:
         self._items: dict[str, Item] = {}
 
