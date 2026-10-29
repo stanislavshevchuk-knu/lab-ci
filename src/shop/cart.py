@@ -1,7 +1,6 @@
 from dataclasses import dataclass
 from typing import Protocol
 
-import os
 
 class RateProvider(Protocol):
     """Джерело курсів валют: скільки гривень коштує 1 одиниця валюти."""
