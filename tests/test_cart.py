@@ -94,3 +94,39 @@ def test_total_in_with_stub(cart_with_items: Cart) -> None:
 def test_total_in_invalid_rate_raises(cart_with_items: Cart, rate: float) -> None:
     with pytest.raises(ValueError, match="rate"):
         cart_with_items.total_in("USD", FakeRates(rate))
+
+
+def test_most_expensive_empty_cart_returns_none(empty_cart: Cart) -> None:
+    assert empty_cart.most_expensive() is None
+
+
+def test_most_expensive_returns_item_with_highest_unit_price(cart_with_items: Cart) -> None:
+    item = cart_with_items.most_expensive()
+
+    assert item is not None
+    assert item.name == "book"
+    assert item.price == 200.0
+
+
+def test_most_expensive_compares_unit_price_not_line_total(empty_cart: Cart) -> None:
+    empty_cart.add("pen", price=15.0, qty=100)  # у сумі 1500, але одиниця дешева
+    empty_cart.add("laptop", price=1000.0, qty=1)
+
+    item = empty_cart.most_expensive()
+
+    assert item is not None
+    assert item.name == "laptop"
+
+
+def test_add_same_name_with_different_price_keeps_original_price(
+    empty_cart: Cart,
+) -> None:
+    empty_cart.add("book", price=200.0, qty=1)
+    empty_cart.add("book", price=300.0, qty=1)
+
+    item = empty_cart.most_expensive()
+
+    assert item is not None
+    assert item.name == "book"
+    assert item.price == 200.0
+    assert item.qty == 2
