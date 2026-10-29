@@ -16,6 +16,9 @@ class Item:
 
 
 class Cart:
+    def format_total(self) -> str:
+        return self.total()
+
     def __init__(self) -> None:
         self._items: dict[str, Item] = {}
 
@@ -53,5 +56,3 @@ class Cart:
         if not self._items:
             return None
         return max(self._items.values(), key=lambda item: item.price)
-
-#test ruleset
