@@ -16,6 +16,9 @@ class Item:
 
 
 class Cart:
+    def format_total(self) -> str:
+        return str(self.total())
+
     def __init__(self) -> None:
         self._items: dict[str, Item] = {}
 
